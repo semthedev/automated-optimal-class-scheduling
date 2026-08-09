@@ -1,101 +1,118 @@
-from utils.HtmlOutput import HtmlOutput
-from algorithm.GeneticAlgorithm import GeneticAlgorithm
-from model.Configuration import Configuration
-import sys
+import argparse
+import codecs
 import os
 import pathlib
+import subprocess
+import sys
 import time
-import tempfile
-import codecs
 import traceback
 import webbrowser
-import subprocess
-import matplotlib.pyplot as plt
 
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-# from algorithm.APNsgaIII import APNsgaIII
-# from algorithm.Cso import Cso
-# from algorithm.GaQpso import GaQpso
-# from algorithm.Amga2 import Amga2
+import matplotlib  # noqa: E402
+import matplotlib.pyplot as plt  # noqa: E402
+
+from algorithm.GeneticAlgorithm import GeneticAlgorithm  # noqa: E402
+from model.Configuration import Configuration  # noqa: E402
+from utils.HtmlOutput import HtmlOutput  # noqa: E402
+
+DEFAULT_CONFIG = PROJECT_ROOT.parent / "config" / "GaSchedule.json"
 
 
-def main(config_path: str):
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Solve the university class-scheduling problem with a genetic algorithm."
+    )
+    parser.add_argument("config", nargs="?", default=str(DEFAULT_CONFIG),
+                        help="path to the JSON configuration file")
+    parser.add_argument("--out-dir", default="output",
+                        help="directory for the generated schedule and fitness plot")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="random seed for a reproducible run")
+    parser.add_argument("--max-repeat", type=int, default=9999,
+                        help="stop after this many generations without improvement")
+    parser.add_argument("--min-fitness", type=float, default=1.0,
+                        help="stop as soon as this fitness is reached")
+    parser.add_argument("--headless", action="store_true",
+                        help="write files only: no plot window, no browser (use in CI)")
+    return parser.parse_args(argv)
+
+
+def main(args):
     start_time = time.time()
 
-    cfg_file = pathlib.Path(config_path).expanduser().resolve()
+    if args.headless:
+        matplotlib.use("Agg")
+
+    if args.seed is not None:
+        import random
+        random.seed(args.seed)
+
+    cfg_file = pathlib.Path(args.config).expanduser().resolve()
     if not cfg_file.exists():
-        print(f"Конфигурационный файл не найден: {cfg_file}")
-        sys.exit(1)
+        print(f"Configuration file not found: {cfg_file}", file=sys.stderr)
+        return 1
 
     configuration = Configuration()
     configuration.parseFile(str(cfg_file))
-
-    # best_overall = None
-    # for attempt in range(3):
-    #     alg = GeneticAlgorithm(configuration,
-    #                         elitism_size=5,
-    #                         crossoverProbability=90,
-    #                         mutationProbability=5)
-    #     alg.run(maxRepeat=2000, minFitness=1.0)
-    #     if best_overall is None or alg.result.fitness > best_overall.fitness:
-    #         best_overall = alg.result
-    # # работаем с best_overall
+    print(f"Loaded {configuration.numberOfCourseClasses} classes, "
+          f"{configuration.numberOfRooms} rooms, "
+          f"{configuration.numberOfProfessors} professors, "
+          f"{configuration.numberOfStudentGroups} student groups.")
 
     alg = GeneticAlgorithm(configuration)
-    alg.run()
+    alg.run(maxRepeat=args.max_repeat, minFitness=args.min_fitness)
 
-    gens = list(range(len(alg.fitness_history)))
-    plt.plot(
-        gens,
-        alg.fitness_history,
-        marker='o',
-        linestyle='-',
-        label='Лучший фитнес'
-    )
-    plt.xlabel("Поколение")
-    plt.ylabel("Лучший фитнес")
-    plt.title("Эволюция фитнеса")
+    out_dir = pathlib.Path(args.out_dir).expanduser().resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    plot_path = out_dir / f"{cfg_file.stem}_fitness.png"
+    plt.figure()
+    plt.plot(range(len(alg.fitness_history)), alg.fitness_history,
+             marker="o", linestyle="-", label="best fitness")
+    plt.xlabel("Generation")
+    plt.ylabel("Best fitness")
+    plt.title("Fitness evolution")
     plt.grid(True)
-    plt.legend(title='Обозначения', loc='lower right')
-    plt.show()
+    plt.legend(loc="lower right")
+    plt.savefig(plot_path, dpi=120, bbox_inches="tight")
+    if not args.headless:
+        plt.show()
+    plt.close()
 
-    html_fragment = HtmlOutput.getResult(alg.result)
+    html_path = out_dir / f"{cfg_file.stem}.html"
     full_html = "\n".join([
         "<!DOCTYPE html>",
-        "<html lang='ru'>",
-        "<head><meta charset='UTF-8'><title>Расписание</title></head>",
+        "<html lang='en'>",
+        "<head><meta charset='UTF-8'><title>Schedule</title></head>",
         "<body>",
-        html_fragment,
-        "</body></html>"
+        HtmlOutput.getResult(alg.result),
+        "</body></html>",
     ])
-
-    tmp_dir = tempfile.gettempdir()
-    out_name = cfg_file.stem + ".html"
-    out_path = os.path.join(tmp_dir, out_name)
-    with codecs.open(out_path, "w", "utf-8") as f:
+    with codecs.open(str(html_path), "w", "utf-8") as f:
         f.write(full_html)
 
-    if sys.platform.startswith("win"):
-        os.startfile(out_path)
-    elif sys.platform == "darwin":
-        subprocess.call(["open", out_path])
-    else:
-        webbrowser.open(f"file://{out_path}")
+    if not args.headless:
+        if sys.platform.startswith("win"):
+            os.startfile(html_path)
+        elif sys.platform == "darwin":
+            subprocess.call(["open", str(html_path)])
+        else:
+            webbrowser.open(html_path.as_uri())
 
-    elapsed = time.time() - start_time
-    print(f"\nCompleted in {elapsed:.2f} secs. → {out_path}\n")
+    print(f"Best fitness: {alg.result.fitness:.4f}")
+    print(f"Schedule:     {html_path}")
+    print(f"Fitness plot: {plot_path}")
+    print(f"Completed in {time.time() - start_time:.2f}s")
+    return 0
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        cfg = sys.argv[1]
-    else:
-        cfg = "config/GaSchedule.json"
     try:
-        main(cfg)
+        sys.exit(main(parse_args()))
     except Exception:
         traceback.print_exc()
         sys.exit(1)

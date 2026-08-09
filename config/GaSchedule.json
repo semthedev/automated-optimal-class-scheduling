@@ -1,0 +1,469 @@
+[
+  {
+    "prof": {
+      "id": 1,
+      "name": "A. Ivanov"
+    }
+  },
+  {
+    "prof": {
+      "id": 2,
+      "name": "M. Petrova"
+    }
+  },
+  {
+    "prof": {
+      "id": 3,
+      "name": "S. Kuznetsov"
+    }
+  },
+  {
+    "prof": {
+      "id": 4,
+      "name": "E. Volkova"
+    }
+  },
+  {
+    "prof": {
+      "id": 5,
+      "name": "D. Sokolov"
+    }
+  },
+  {
+    "prof": {
+      "id": 6,
+      "name": "N. Morozova"
+    }
+  },
+  {
+    "prof": {
+      "id": 7,
+      "name": "R. Popov"
+    }
+  },
+  {
+    "prof": {
+      "id": 8,
+      "name": "L. Novikova"
+    }
+  },
+  {
+    "prof": {
+      "id": 9,
+      "name": "V. Fedorov"
+    }
+  },
+  {
+    "prof": {
+      "id": 10,
+      "name": "O. Egorova"
+    }
+  },
+  {
+    "course": {
+      "id": 1,
+      "name": "Calculus"
+    }
+  },
+  {
+    "course": {
+      "id": 2,
+      "name": "Linear Algebra"
+    }
+  },
+  {
+    "course": {
+      "id": 3,
+      "name": "Discrete Mathematics"
+    }
+  },
+  {
+    "course": {
+      "id": 4,
+      "name": "Programming in Python"
+    }
+  },
+  {
+    "course": {
+      "id": 5,
+      "name": "Databases"
+    }
+  },
+  {
+    "course": {
+      "id": 6,
+      "name": "Computer Networks"
+    }
+  },
+  {
+    "course": {
+      "id": 7,
+      "name": "Operating Systems"
+    }
+  },
+  {
+    "course": {
+      "id": 8,
+      "name": "Machine Learning"
+    }
+  },
+  {
+    "course": {
+      "id": 9,
+      "name": "Probability & Statistics"
+    }
+  },
+  {
+    "course": {
+      "id": 10,
+      "name": "Software Engineering"
+    }
+  },
+  {
+    "room": {
+      "name": "A-101",
+      "lab": false,
+      "size": 60
+    }
+  },
+  {
+    "room": {
+      "name": "A-102",
+      "lab": false,
+      "size": 60
+    }
+  },
+  {
+    "room": {
+      "name": "A-201",
+      "lab": false,
+      "size": 90
+    }
+  },
+  {
+    "room": {
+      "name": "L-301",
+      "lab": true,
+      "size": 30
+    }
+  },
+  {
+    "room": {
+      "name": "L-302",
+      "lab": true,
+      "size": 30
+    }
+  },
+  {
+    "room": {
+      "name": "L-303",
+      "lab": true,
+      "size": 25
+    }
+  },
+  {
+    "group": {
+      "id": 1,
+      "name": "CS-21",
+      "size": 28
+    }
+  },
+  {
+    "group": {
+      "id": 2,
+      "name": "CS-22",
+      "size": 26
+    }
+  },
+  {
+    "group": {
+      "id": 3,
+      "name": "IT-21",
+      "size": 30
+    }
+  },
+  {
+    "group": {
+      "id": 4,
+      "name": "IT-22",
+      "size": 24
+    }
+  },
+  {
+    "group": {
+      "id": 5,
+      "name": "AI-21",
+      "size": 22
+    }
+  },
+  {
+    "class": {
+      "professor": 10,
+      "course": 8,
+      "lab": true,
+      "duration": 2,
+      "group": 1
+    }
+  },
+  {
+    "class": {
+      "professor": 1,
+      "course": 9,
+      "lab": false,
+      "duration": 1,
+      "group": 1
+    }
+  },
+  {
+    "class": {
+      "professor": 2,
+      "course": 10,
+      "lab": false,
+      "duration": 1,
+      "group": 1
+    }
+  },
+  {
+    "class": {
+      "professor": 6,
+      "course": 4,
+      "lab": true,
+      "duration": 2,
+      "group": 1
+    }
+  },
+  {
+    "class": {
+      "professor": 7,
+      "course": 5,
+      "lab": true,
+      "duration": 2,
+      "group": 1
+    }
+  },
+  {
+    "class": {
+      "professor": 8,
+      "course": 6,
+      "lab": true,
+      "duration": 2,
+      "group": 1
+    }
+  },
+  {
+    "class": {
+      "professor": 7,
+      "course": 4,
+      "lab": true,
+      "duration": 2,
+      "group": 2
+    }
+  },
+  {
+    "class": {
+      "professor": 6,
+      "course": 3,
+      "lab": false,
+      "duration": 1,
+      "group": 2
+    }
+  },
+  {
+    "class": {
+      "professor": 1,
+      "course": 8,
+      "lab": true,
+      "duration": 2,
+      "group": 2
+    }
+  },
+  {
+    "class": {
+      "professor": 9,
+      "course": 6,
+      "lab": true,
+      "duration": 2,
+      "group": 2
+    }
+  },
+  {
+    "class": {
+      "professor": 8,
+      "course": 5,
+      "lab": true,
+      "duration": 2,
+      "group": 2
+    }
+  },
+  {
+    "class": {
+      "professor": 5,
+      "course": 2,
+      "lab": false,
+      "duration": 1,
+      "group": 2
+    }
+  },
+  {
+    "class": {
+      "professor": 6,
+      "course": 2,
+      "lab": false,
+      "duration": 1,
+      "group": 3
+    }
+  },
+  {
+    "class": {
+      "professor": 2,
+      "course": 8,
+      "lab": true,
+      "duration": 2,
+      "group": 3
+    }
+  },
+  {
+    "class": {
+      "professor": 9,
+      "course": 5,
+      "lab": true,
+      "duration": 2,
+      "group": 3
+    }
+  },
+  {
+    "class": {
+      "professor": 4,
+      "course": 10,
+      "lab": false,
+      "duration": 1,
+      "group": 3
+    }
+  },
+  {
+    "class": {
+      "professor": 5,
+      "course": 1,
+      "lab": false,
+      "duration": 1,
+      "group": 3
+    }
+  },
+  {
+    "class": {
+      "professor": 3,
+      "course": 9,
+      "lab": false,
+      "duration": 1,
+      "group": 3
+    }
+  },
+  {
+    "class": {
+      "professor": 6,
+      "course": 1,
+      "lab": false,
+      "duration": 1,
+      "group": 4
+    }
+  },
+  {
+    "class": {
+      "professor": 2,
+      "course": 7,
+      "lab": true,
+      "duration": 2,
+      "group": 4
+    }
+  },
+  {
+    "class": {
+      "professor": 3,
+      "course": 8,
+      "lab": true,
+      "duration": 2,
+      "group": 4
+    }
+  },
+  {
+    "class": {
+      "professor": 1,
+      "course": 6,
+      "lab": true,
+      "duration": 2,
+      "group": 4
+    }
+  },
+  {
+    "class": {
+      "professor": 4,
+      "course": 9,
+      "lab": false,
+      "duration": 1,
+      "group": 4
+    }
+  },
+  {
+    "class": {
+      "professor": 10,
+      "course": 5,
+      "lab": true,
+      "duration": 2,
+      "group": 4
+    }
+  },
+  {
+    "class": {
+      "professor": 9,
+      "course": 3,
+      "lab": false,
+      "duration": 1,
+      "group": 5
+    }
+  },
+  {
+    "class": {
+      "professor": 7,
+      "course": 1,
+      "lab": false,
+      "duration": 1,
+      "group": 5
+    }
+  },
+  {
+    "class": {
+      "professor": 8,
+      "course": 2,
+      "lab": false,
+      "duration": 1,
+      "group": 5
+    }
+  },
+  {
+    "class": {
+      "professor": 5,
+      "course": 9,
+      "lab": false,
+      "duration": 1,
+      "group": 5
+    }
+  },
+  {
+    "class": {
+      "professor": 3,
+      "course": 7,
+      "lab": true,
+      "duration": 2,
+      "group": 5
+    }
+  },
+  {
+    "class": {
+      "professor": 4,
+      "course": 8,
+      "lab": true,
+      "duration": 2,
+      "group": 5
+    }
+  }
+]
